@@ -354,10 +354,12 @@ function renderResult(raw){
         html+=`<div class="r-info-row"><span class="r-info-label ${labelClass(key)}">${esc(key)}</span><span class="r-info-value">${inline(val)}</span></div>`;
       }
       if(/위치|주소/.test(key)){
-        const q=encodeURIComponent((currentShopName?currentShopName+' ':'')+val+' 후쿠오카');
+        // 가게이름 + 전체주소로 정확한 단일 검색
+        const fullQuery = encodeURIComponent(currentShopName + ' ' + val);
+        const mapUrl = 'https://www.google.com/maps/search/' + fullQuery;
         const imgQ=encodeURIComponent((currentShopName||'')+' 후쿠오카 맛집');
         html+=`<div class="r-info-row" style="gap:8px;flex-wrap:wrap;">
-          <a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener" class="r-map-btn"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>지도에서 보기</a>
+          <a href="${mapUrl}" target="_blank" rel="noopener" class="r-map-btn"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>지도에서 보기</a>
           <a href="https://www.google.com/search?tbm=isch&q=${imgQ}" target="_blank" rel="noopener" class="r-img-btn"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>사진 보기</a>
         </div>`;
       }
